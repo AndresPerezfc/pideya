@@ -1,0 +1,21 @@
+/* Estilos base de PideYa. Relevo 1 (Frontend). */
+:root {
+  --cafe: #4A2C1D;
+  --crema: #FFF8EE;
+  --tinto: #8C2F1B;
+  --hoja: #2F6B3F;
+  --linea: #E7D9C4;
+  --texto: #2B1D14;
+  --suave: #7A6656;
+  --radio: 12px;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--crema); color: var(--texto); line-height: 1.5; }
+header.barra { background: var(--cafe); color: var(--crema); padding: 14px 16px; }
+header.barra h1 { margin: 0; font-size: 1.3rem; }
+header.barra p { margin: 2px 0 0; font-size: .9rem; opacity: .8; }
+main { max-width: 720px; margin: 0 auto; padding: 16px; }
+.aviso { background: #fff; border: 1px dashed var(--linea); border-radius: var(--radio); padding: 16px; color: var(--suave); }
+button { font: inherit; cursor: pointer; border: 0; border-radius: 8px; padding: 8px 14px; background: var(--tinto); color: #fff; font-weight: 600; }
+button:disabled { background: var(--linea); color: var(--suave); cursor: not-allowed; }

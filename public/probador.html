@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Probador de la API · PideYa</title>
+  <link rel="stylesheet" href="estilos.css">
+  <style>
+    main { max-width: 980px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 20px; align-items: start; }
+    @media (max-width: 760px) { main { grid-template-columns: 1fr; } }
+    section { background: #fff; border: 1px solid var(--linea); border-radius: var(--radio); padding: 14px 16px; margin-bottom: 14px; }
+    h2 { font-size: 1rem; margin: 0 0 10px; }
+    .botones { display: flex; flex-wrap: wrap; gap: 8px; }
+    .botones button { background: var(--cafe); }
+    label { display: flex; flex-direction: column; font-size: .85rem; color: var(--suave); gap: 3px; }
+    input, select { font: inherit; padding: 6px 8px; border: 1px solid var(--linea); border-radius: 6px; }
+    .fila { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end; margin-bottom: 10px; }
+    .fila label { flex: 1 1 110px; }
+    #salida { position: sticky; top: 12px; }
+    .resultado { border-top: 1px solid var(--linea); padding-top: 10px; margin-top: 10px; }
+    .resultado:first-of-type { border-top: 0; margin-top: 0; padding-top: 0; }
+    .linea { font-family: Consolas, monospace; font-size: .85rem; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .codigo { font-weight: 700; border-radius: 6px; padding: 1px 8px; color: #fff; }
+    .ok { background: var(--hoja); } .error { background: var(--tinto); } .pendiente { background: #9A7B1C; }
+    pre { background: #FBF6EE; border-radius: 8px; padding: 10px; font-size: .82rem; overflow-x: auto; white-space: pre-wrap; word-break: break-word; margin: 6px 0 0; max-height: 320px; }
+    .ayuda { font-size: .85rem; color: var(--suave); margin: 0 0 10px; }
+  </style>
+</head>
+<body>
+  <!-- Probador de la API. Ya viene construido. -->
+  <header class="barra">
+    <h1>Probador de la API</h1>
+    <p>Envía solicitudes a PideYa sin usar el frontend y mira qué responde el servidor</p>
+  </header>
+  <main>
+    <div>
+      <section>
+        <h2>Menú y salud</h2>
+        <div class="botones">
+          <button data-prueba="menu">Ver menú</button>
+          <button data-prueba="salud">Salud del servidor</button>
+          <button data-prueba="ventas">Ver ventas</button>
+        </div>
+      </section>
+
+      <section>
+        <h2>Pedidos de estudiantes</h2>
+        <p class="ayuda">Los pedidos de ejemplo usan productos del menú actual.</p>
+        <div class="botones">
+          <button data-prueba="pedidoEjemplo">Enviar pedido de ejemplo</button>
+          <button data-prueba="pedidoSeis">Pedido con 6 productos</button>
+          <button data-prueba="pedidoSinNombre">Pedido sin nombre</button>
+          <button data-prueba="pedidoGigante">Pedido con 50 productos</button>
+        </div>
+      </section>
+
+      <section>
+        <h2>Consultar un pedido</h2>
+        <div class="fila">
+          <label for="pedidoId">Número del pedido<input id="pedidoId" type="number" min="1" value="1"></label>
+          <label for="pedidoCodigo">Código de recogida (opcional)<input id="pedidoCodigo" placeholder="MANGO-27"></label>
+        </div>
+        <div class="botones"><button data-prueba="verPedido">Ver pedido</button></div>
+      </section>
+
+      <section>
+        <h2>Cocina</h2>
+        <div class="fila">
+          <label for="clave">Clave de la cocina<input id="clave" placeholder="Vacío = sin clave"></label>
+        </div>
+        <div class="botones" style="margin-bottom:10px"><button data-prueba="cocinaPedidos">Ver pedidos de la cocina</button></div>
+        <div class="fila">
+          <label for="estadoId">Número del pedido<input id="estadoId" type="number" min="1" value="1"></label>
+          <label for="estadoNuevo">Nuevo estado
+            <select id="estadoNuevo">
+              <option>preparando</option><option>listo</option><option>entregado</option><option>recibido</option>
+            </select>
+          </label>
+        </div>
+        <div class="botones"><button data-prueba="cambiarEstado">Cambiar estado</button></div>
+      </section>
+    </div>
+
+    <section id="salida" aria-live="polite">
+      <h2>Respuestas</h2>
+      <div id="resultados"><p class="ayuda">Pulsa un botón para enviar una solicitud.</p></div>
+    </section>
+  </main>
+
+  <script>
+    const $ = id => document.getElementById(id);
+
+    async function menu() {
+      const r = await fetch("/api/menu");
+      return r.ok ? r.json() : [];
+    }
+
+    async function items(cuantos, cantidad = 1) {
+      const productos = await menu();
+      if (!productos.length) return [];
+      return Array.from({ length: cuantos }, (_, i) => {
+        const p = productos[i % productos.length];
+        return { productoId: p.id, cantidad, precio: p.precio };
+      });
+    }
+
+    const pruebas = {
+      menu: () => ["GET", "/api/menu"],
+      salud: () => ["GET", "/api/health"],
+      ventas: () => ["GET", "/api/reportes/ventas"],
+      pedidoEjemplo: async () => ["POST", "/api/pedidos", { nombre: "Estudiante de prueba", items: await items(2) }],
+      pedidoSeis: async () => ["POST", "/api/pedidos", { nombre: "Estudiante de prueba", items: await items(6) }],
+      pedidoSinNombre: async () => ["POST", "/api/pedidos", { items: await items(1) }],
+      pedidoGigante: async () => ["POST", "/api/pedidos", { nombre: "Estudiante de prueba", items: await items(1, 50) }],
+      verPedido: () => {
+        const codigo = $("pedidoCodigo").value.trim();
+        return ["GET", `/api/pedidos/${encodeURIComponent($("pedidoId").value)}` + (codigo ? `?codigo=${encodeURIComponent(codigo)}` : "")];
+      },
+      cocinaPedidos: () => ["GET", "/api/cocina/pedidos", undefined, true],
+      cambiarEstado: () => ["PATCH", `/api/cocina/pedidos/${encodeURIComponent($("estadoId").value)}/estado`, { estado: $("estadoNuevo").value }, true],
+    };
+
+    async function enviar(nombre) {
+      const [metodo, ruta, cuerpo, cocina] = await pruebas[nombre]();
+      const headers = { "Content-Type": "application/json" };
+      if (cocina && $("clave").value.trim()) headers["X-Clave-Cocina"] = $("clave").value.trim();
+
+      let estado, texto;
+      try {
+        const r = await fetch(ruta, { method: metodo, headers, body: cuerpo ? JSON.stringify(cuerpo) : undefined });
+        estado = r.status;
+        texto = await r.text();
+        try { texto = JSON.stringify(JSON.parse(texto), null, 2); } catch {}
+      } catch (e) {
+        estado = "sin conexión";
+        texto = "No se pudo conectar con el servidor. ¿Está corriendo npm start?";
+      }
+
+      const clase = estado === 501 ? "pendiente" : estado >= 200 && estado < 300 ? "ok" : "error";
+      const bloque = document.createElement("div");
+      bloque.className = "resultado";
+      const linea = document.createElement("div");
+      linea.className = "linea";
+      const codigo = document.createElement("span");
+      codigo.className = "codigo " + clase;
+      codigo.textContent = estado;
+      const pedido = document.createElement("span");
+      pedido.textContent = `${metodo} ${ruta}`;
+      linea.append(codigo, pedido);
+      bloque.append(linea);
+      if (cuerpo) {
+        const enviado = document.createElement("pre");
+        enviado.textContent = "Enviado: " + JSON.stringify(cuerpo, null, 2);
+        bloque.append(enviado);
+      }
+      const respuesta = document.createElement("pre");
+      respuesta.textContent = texto || "(sin contenido)";
+      bloque.append(respuesta);
+
+      const lista = $("resultados");
+      if (lista.querySelector(".ayuda")) lista.innerHTML = "";
+      lista.prepend(bloque);
+      while (lista.children.length > 6) lista.lastChild.remove();
+    }
+
+    document.addEventListener("click", e => {
+      const b = e.target.closest("[data-prueba]");
+      if (b) enviar(b.dataset.prueba);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# Quién revisa los cambios de cada carpeta.
+# Reemplaza cada @usuario por la cuenta de GitHub del computador de ese equipo
+# (o deja este archivo así: es informativo mientras no se active "Require review from Code Owners").
+#
+# /public/              @usuario-frontend
+# /api/                 @usuario-backend
+# /db/                  @usuario-datos
+# /api/reportes.js      @usuario-datos
+# /server.js            @usuario-plataforma
+# /CLAUDE.md            @usuario-plataforma
+# /contrato.md          @usuario-plataforma
+# /public/probador.html @usuario-plataforma

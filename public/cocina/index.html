@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cocina · PideYa</title>
+  <link rel="stylesheet" href="../estilos.css">
+  <style>
+    body { background: #2B1D14; }
+    header.barra { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    #tablero { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding: 16px; }
+    @media (max-width: 760px) { #tablero { grid-template-columns: 1fr; } }
+    .columna { background: #3A281C; border-radius: 14px; padding: 12px; min-height: 60vh; }
+    .columna h2 { color: #FFF8EE; margin: 4px 4px 12px; font-size: 1.1rem; display: flex; justify-content: space-between; }
+    .comanda { background: #FFF8EE; border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; }
+    .comanda .codigo { font-family: Consolas, monospace; font-size: 1.6rem; font-weight: 700; color: #8C2F1B; }
+    .comanda .nombre { font-weight: 600; margin-top: 2px; }
+    .comanda ul { margin: 6px 0 10px; padding-left: 18px; }
+    .estado-aviso { color: #FFF8EE; padding: 24px; grid-column: 1 / -1; }
+  </style>
+</head>
+<body>
+  <!-- Tablero de la cocina: ya viene construido y se proyecta durante el lanzamiento. -->
+  <header class="barra">
+    <div>
+      <h1>Cocina · El Tintico</h1>
+      <p>Pedidos de PideYa, el más viejo primero</p>
+    </div>
+    <p id="actualizado"></p>
+  </header>
+  <main id="tablero" style="max-width:none"></main>
+  <script src="cocina.js"></script>
+</body>
+</html>

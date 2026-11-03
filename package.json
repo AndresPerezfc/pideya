@@ -1,0 +1,17 @@
+{
+  "name": "pideya",
+  "version": "1.0.0",
+  "description": "PideYa: pedidos anticipados para la cafetería El Tintico. Proyecto del taller Desarrollo web con IA (Innova Devs).",
+  "private": true,
+  "main": "server.js",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --watch-path=server.js --watch-path=api --watch-path=db --disable-warning=ExperimentalWarning server.js",
+    "test": "node --disable-warning=ExperimentalWarning --test"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
