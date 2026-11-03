@@ -1,23 +1,34 @@
-/* Estilos de PideYa. Relevo 1 (Frontend). Pensado para celular. */
+/* Estilos de PideYa. Relevo 1 (Frontend). Pensado para celular.
+   Ambiente: cafetería de campus en la costa Caribe colombiana (Santa Marta).
+   Colores vivos: rojo, azul mar y amarillo sol, sobre un fondo color arena. */
 :root {
-  --cafe: #4A2C1D;
-  --cafe-oscuro: #33190F;
-  --crema: #FFF8EE;
-  --tinto: #8C2F1B;
-  --tinto-oscuro: #6E2414;
-  --hoja: #2F6B3F;
-  --linea: #E7D9C4;
-  --texto: #2B1D14;
-  --suave: #7A6656;
-  --gris: #F0ECE6;
-  --radio: 12px;
+  --rojo: #E63946;
+  --rojo-oscuro: #C1121F;
+  --azul: #0A5CB8;
+  --azul-oscuro: #073B7A;
+  --celeste: #3FB9F2;
+  --amarillo: #FFC300;
+  --amarillo-claro: #FFE98A;
+  --arena: #FFF6E0;
+  --arena-oscura: #F5E6C3;
+  --texto: #1B2A41;
+  --suave: #5C6B7A;
+  --gris: #ECEFF1;
+  --linea: #E5DCC5;
+  --radio: 14px;
   --alto-carrito: 140px;
   font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 * { box-sizing: border-box; }
 body {
   margin: 0;
-  background: var(--crema);
+  background: var(--arena);
+  /* Rayas suaves tipo toldo de playa, muy tenues */
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent 0 28px,
+    rgba(10, 92, 184, .035) 28px 56px
+  );
   color: var(--texto);
   line-height: 1.5;
   /* Deja espacio abajo para que el carrito fijo no tape el último producto */
@@ -25,21 +36,44 @@ body {
 }
 [hidden] { display: none !important; }
 
-/* Barra superior */
+/* Barra superior: cielo y mar, con la franja tricolor abajo */
 header.barra {
-  background: var(--cafe);
-  color: var(--crema);
-  padding: 14px 16px;
+  background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul) 55%, var(--celeste) 100%);
+  color: #fff;
+  padding: 16px 16px 18px;
   position: sticky;
   top: 0;
   z-index: 5;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
+  box-shadow: 0 3px 10px rgba(7, 59, 122, .3);
 }
-header.barra h1 { margin: 0; font-size: 1.4rem; }
-header.barra p { margin: 2px 0 0; font-size: .9rem; opacity: .85; }
+header.barra::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--amarillo) 0 50%, var(--azul) 50% 75%, var(--rojo) 75% 100%);
+}
+header.barra h1 { margin: 0; font-size: 1.6rem; letter-spacing: .5px; }
+header.barra p { margin: 2px 0 0; font-size: .9rem; color: var(--amarillo-claro); }
 
 main { max-width: 720px; margin: 0 auto; padding: 16px; }
-.titulo-seccion { margin: 0 0 12px; font-size: 1.1rem; color: var(--cafe); }
+.titulo-seccion {
+  margin: 0 0 14px;
+  font-size: 1.2rem;
+  color: var(--azul-oscuro);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.titulo-seccion::after {
+  content: "";
+  flex: 1;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--amarillo), var(--rojo));
+}
 
 .aviso {
   background: #fff;
@@ -48,7 +82,7 @@ main { max-width: 720px; margin: 0 auto; padding: 16px; }
   padding: 16px;
   color: var(--suave);
 }
-.aviso.error { border-color: var(--tinto); color: var(--tinto); border-style: solid; }
+.aviso.error { border-color: var(--rojo); color: var(--rojo); border-style: solid; }
 
 /* Menú en tarjetas */
 .menu { display: grid; gap: 12px; }
@@ -59,33 +93,41 @@ main { max-width: 720px; margin: 0 auto; padding: 16px; }
 .tarjeta {
   background: #fff;
   border: 1px solid var(--linea);
+  border-left: 8px solid var(--rojo);
   border-radius: var(--radio);
   padding: 14px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  box-shadow: 0 1px 3px rgba(74, 44, 29, .08);
+  box-shadow: 0 2px 6px rgba(27, 42, 65, .08);
 }
+/* Cada tarjeta lleva un color distinto en el borde: rojo, azul, amarillo */
+.tarjeta:nth-child(3n + 2) { border-left-color: var(--azul); }
+.tarjeta:nth-child(3n + 3) { border-left-color: var(--amarillo); }
 .tarjeta-info { min-width: 0; }
 .tarjeta-nombre { margin: 0; font-size: 1.05rem; overflow-wrap: anywhere; }
-.tarjeta-precio { margin: 2px 0 0; font-weight: 700; color: var(--hoja); }
+.tarjeta-precio { margin: 2px 0 0; font-weight: 800; color: var(--azul); }
 .tarjeta-acciones { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .contador {
-  background: var(--crema);
-  border: 1px solid var(--linea);
+  background: var(--amarillo);
+  color: var(--texto);
   border-radius: 999px;
   padding: 2px 10px;
-  font-weight: 700;
-  color: var(--cafe);
+  font-weight: 800;
 }
 
 /* Producto agotado: en gris y sin botón */
-.tarjeta.agotado { background: var(--gris); border-color: var(--gris); box-shadow: none; }
+.tarjeta.agotado {
+  background: var(--gris);
+  border-color: var(--gris);
+  border-left-color: #B0BEC5;
+  box-shadow: none;
+}
 .tarjeta.agotado .tarjeta-nombre,
 .tarjeta.agotado .tarjeta-precio { color: var(--suave); }
 .etiqueta-agotado {
-  background: var(--linea);
+  background: #CFD8DC;
   color: var(--suave);
   border-radius: 999px;
   padding: 4px 12px;
@@ -99,30 +141,33 @@ button {
   font: inherit;
   cursor: pointer;
   border: 0;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 10px 16px;
-  background: var(--tinto);
+  background: var(--rojo);
   color: #fff;
-  font-weight: 600;
+  font-weight: 700;
   min-height: 44px; /* fácil de tocar con el dedo */
+  box-shadow: 0 2px 0 var(--rojo-oscuro);
 }
-button:active { background: var(--tinto-oscuro); }
-button:disabled { background: var(--linea); color: var(--suave); cursor: not-allowed; }
+button:active { background: var(--rojo-oscuro); box-shadow: none; transform: translateY(2px); }
+button:disabled { background: var(--linea); color: var(--suave); cursor: not-allowed; box-shadow: none; transform: none; }
 .boton-secundario {
   background: transparent;
-  color: var(--crema);
-  border: 1px solid rgba(255, 248, 238, .5);
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, .6);
   padding: 6px 12px;
   min-height: 36px;
   font-size: .9rem;
+  box-shadow: none;
 }
-.boton-secundario:active { background: rgba(255, 255, 255, .1); }
-.boton-ancho { width: 100%; margin-top: 16px; }
+.boton-secundario:active { background: rgba(255, 255, 255, .15); transform: none; }
+.boton-ancho { width: 100%; margin-top: 16px; background: var(--azul); box-shadow: 0 2px 0 var(--azul-oscuro); }
+.boton-ancho:active { background: var(--azul-oscuro); }
 
 input[type="text"] {
   font: inherit;
-  border: 1px solid var(--linea);
-  border-radius: 8px;
+  border: 2px solid transparent;
+  border-radius: 10px;
   padding: 10px 12px;
   min-height: 44px;
   width: 100%;
@@ -130,22 +175,23 @@ input[type="text"] {
   background: #fff;
   color: var(--texto);
 }
-input[type="text"]:focus { outline: 2px solid var(--hoja); outline-offset: 1px; }
+input[type="text"]:focus { outline: none; border-color: var(--amarillo); }
 
-/* Carrito fijo abajo */
+/* Carrito fijo abajo: azul mar profundo con el total en amarillo */
 .carrito {
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--cafe-oscuro);
-  color: var(--crema);
+  background: var(--azul-oscuro);
+  color: #fff;
   display: flex;
   flex-direction: column;
   gap: 10px;
   padding: 12px 16px;
   padding-bottom: calc(12px + env(safe-area-inset-bottom));
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, .25);
+  border-top: 4px solid var(--amarillo);
+  box-shadow: 0 -3px 10px rgba(7, 59, 122, .35);
   z-index: 10;
 }
 .carrito-fila {
@@ -159,17 +205,25 @@ input[type="text"]:focus { outline: 2px solid var(--hoja); outline-offset: 1px; 
 }
 .carrito-info { display: flex; flex-direction: column; min-width: 0; }
 .carrito-cantidad { font-weight: 700; }
-.carrito-aviso { font-size: .85rem; opacity: .8; }
+.carrito-aviso { font-size: .85rem; color: var(--amarillo-claro); }
 .carrito-derecha { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-.carrito-total { font-size: 1.4rem; font-weight: 800; }
-.carrito-formulario button { flex-shrink: 0; min-width: 96px; }
+.carrito-total { font-size: 1.5rem; font-weight: 900; color: var(--amarillo); }
+.carrito-formulario button {
+  flex-shrink: 0;
+  min-width: 96px;
+  background: var(--amarillo);
+  color: var(--texto);
+  box-shadow: 0 2px 0 #C79600;
+}
+.carrito-formulario button:active { background: #E6B000; }
+.carrito-formulario button:disabled { background: rgba(255, 255, 255, .2); color: rgba(255, 255, 255, .6); box-shadow: none; }
 .carrito-error {
   max-width: 720px;
   width: 100%;
   margin: 0 auto;
-  background: #FFE3DD;
-  color: var(--tinto);
-  border-radius: 8px;
+  background: var(--rojo);
+  color: #fff;
+  border-radius: 10px;
   padding: 8px 12px;
   font-size: .9rem;
   font-weight: 600;
@@ -177,20 +231,21 @@ input[type="text"]:focus { outline: 2px solid var(--hoja); outline-offset: 1px; 
 
 /* Pantalla del pedido enviado */
 .pantalla-pedido { text-align: center; padding-top: 28px; }
-.pedido-saludo { margin: 0; color: var(--suave); }
+.pedido-saludo { margin: 0; color: var(--suave); font-weight: 600; }
 .pedido-codigo {
   margin: 8px 0;
   font-size: 3rem;
   font-weight: 900;
   letter-spacing: 2px;
-  color: var(--tinto);
-  background: #fff;
-  border: 3px dashed var(--tinto);
+  color: var(--rojo);
+  background: var(--amarillo);
+  border: 4px solid var(--rojo);
   border-radius: var(--radio);
   padding: 16px;
   overflow-wrap: anywhere;
+  box-shadow: 0 6px 0 var(--azul);
 }
-.pedido-nota { margin: 0 0 24px; font-size: .9rem; color: var(--suave); }
+.pedido-nota { margin: 0 0 28px; font-size: .9rem; color: var(--suave); }
 
 /* Línea de estados: recibido → preparando → listo → entregado */
 .estados {
@@ -225,17 +280,17 @@ input[type="text"]:focus { outline: 2px solid var(--hoja); outline-offset: 1px; 
   top: 8px;
   left: 50%;
   width: 100%;
-  height: 2px;
+  height: 3px;
   background: var(--linea);
   z-index: -1;
 }
 .estados li:last-child::after { display: none; }
-.estados li.hecho::before { background: var(--hoja); border-color: var(--hoja); }
-.estados li.hecho::after { background: var(--hoja); }
-.estados li.actual { color: var(--cafe); font-weight: 700; }
-.estados li.actual::before { background: var(--tinto); border-color: var(--tinto); box-shadow: 0 0 0 4px rgba(140, 47, 27, .2); }
-.pedido-estado-texto { margin: 12px 0 24px; font-weight: 600; color: var(--cafe); }
-.pedido-listo .pedido-estado-texto { color: var(--hoja); font-size: 1.1rem; }
+.estados li.hecho::before { background: var(--azul); border-color: var(--azul); }
+.estados li.hecho::after { background: var(--azul); }
+.estados li.actual { color: var(--rojo); font-weight: 800; }
+.estados li.actual::before { background: var(--rojo); border-color: var(--rojo); box-shadow: 0 0 0 4px var(--amarillo); }
+.pedido-estado-texto { margin: 12px 0 24px; font-weight: 700; color: var(--azul-oscuro); }
+.pedido-listo .pedido-estado-texto { color: var(--rojo); font-size: 1.1rem; }
 
 .pedido-items {
   list-style: none;
@@ -255,5 +310,5 @@ input[type="text"]:focus { outline: 2px solid var(--hoja); outline-offset: 1px; 
 }
 .pedido-items li:last-child { border-bottom: 0; }
 .pedido-total { text-align: right; margin: 8px 0 0; }
-.pedido-total strong { font-size: 1.2rem; color: var(--hoja); }
-.pedido-aviso { min-height: 1.5em; margin: 12px 0 0; font-size: .85rem; color: var(--tinto); }
+.pedido-total strong { font-size: 1.2rem; color: var(--azul); }
+.pedido-aviso { min-height: 1.5em; margin: 12px 0 0; font-size: .85rem; color: var(--rojo); }
