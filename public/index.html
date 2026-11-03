@@ -3,18 +3,41 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PideYa · en construcción</title>
+  <title>PideYa · Cafetería El Tintico</title>
   <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
   <!-- App del estudiante. Relevo 1 (Frontend). -->
   <header class="barra">
-    <h1>PideYa · en construcción</h1>
-    <p>Pide en la cafetería sin hacer fila</p>
+    <h1>PideYa</h1>
+    <p>Cafetería El Tintico · pide sin hacer fila</p>
   </header>
+
   <main>
-    <div id="menu" class="aviso">Aquí va a aparecer el menú de la cafetería.</div>
+    <section id="vista-menu">
+      <h2 class="titulo">Menú de hoy</h2>
+      <div id="menu" class="menu"><p class="aviso">Cargando el menú…</p></div>
+    </section>
+
+    <section id="vista-pedido" class="pedido" hidden>
+      <p class="etiqueta">Tu código de recogida</p>
+      <div id="codigo" class="codigo"></div>
+      <p id="estado" class="estado"></p>
+      <p class="ayuda">Paga en caja al recoger. Esta pantalla se actualiza sola.</p>
+      <button id="nuevo" class="secundario">Hacer otro pedido</button>
+    </section>
   </main>
+
+  <footer id="carrito" class="carrito" hidden>
+    <div class="resumen"><span id="cantidad"></span><strong id="total"></strong></div>
+    <div class="enviar">
+      <label for="nombre" class="oculto">Tu nombre</label>
+      <input id="nombre" placeholder="Tu nombre" maxlength="40" autocomplete="given-name">
+      <button id="pedir">Pedir</button>
+    </div>
+    <p id="error" class="error" hidden></p>
+  </footer>
+
   <script src="app.js"></script>
 </body>
 </html>

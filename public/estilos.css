@@ -1,4 +1,4 @@
-/* Estilos base de PideYa. Relevo 1 (Frontend). */
+/* Estilos de PideYa. Relevo 1 (Frontend). */
 :root {
   --cafe: #4A2C1D;
   --crema: #FFF8EE;
@@ -11,7 +11,7 @@
   font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--crema); color: var(--texto); line-height: 1.5; }
+body { margin: 0; background: var(--crema); color: var(--texto); line-height: 1.5; padding-bottom: 150px; }
 header.barra { background: var(--cafe); color: var(--crema); padding: 14px 16px; }
 header.barra h1 { margin: 0; font-size: 1.3rem; }
 header.barra p { margin: 2px 0 0; font-size: .9rem; opacity: .8; }
@@ -19,3 +19,30 @@ main { max-width: 720px; margin: 0 auto; padding: 16px; }
 .aviso { background: #fff; border: 1px dashed var(--linea); border-radius: var(--radio); padding: 16px; color: var(--suave); }
 button { font: inherit; cursor: pointer; border: 0; border-radius: 8px; padding: 8px 14px; background: var(--tinto); color: #fff; font-weight: 600; }
 button:disabled { background: var(--linea); color: var(--suave); cursor: not-allowed; }
+button.secundario { background: #fff; color: var(--tinto); border: 1.5px solid var(--tinto); }
+.oculto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+.titulo { font-size: 1.1rem; margin: 4px 0 12px; }
+.menu { display: grid; gap: 10px; }
+.producto { background: #fff; border: 1px solid var(--linea); border-radius: var(--radio); padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.producto h3 { margin: 0; font-size: 1rem; }
+.producto .precio { margin: 2px 0 0; color: var(--tinto); font-weight: 700; }
+.producto.agotado { opacity: .55; filter: grayscale(1); }
+.producto.agotado .precio { color: var(--suave); }
+.acciones { display: flex; align-items: center; gap: 8px; }
+.acciones button { min-width: 40px; }
+.contador { font-weight: 700; min-width: 1.2em; text-align: center; }
+
+.carrito { position: fixed; left: 0; right: 0; bottom: 0; background: var(--cafe); color: var(--crema); padding: 12px 16px 16px; box-shadow: 0 -6px 20px rgba(0,0,0,.15); }
+.carrito .resumen { max-width: 720px; margin: 0 auto 8px; display: flex; justify-content: space-between; }
+.carrito .enviar { max-width: 720px; margin: 0 auto; display: flex; gap: 8px; }
+.carrito input { flex: 1; min-width: 0; font: inherit; padding: 8px 10px; border-radius: 8px; border: 0; }
+.carrito button { background: var(--hoja); }
+.error { max-width: 720px; margin: 8px auto 0; background: #FCE3DC; color: var(--tinto); border-radius: 8px; padding: 8px 10px; font-weight: 600; }
+
+.pedido { text-align: center; background: #fff; border: 1px solid var(--linea); border-radius: var(--radio); padding: 28px 16px; margin-top: 12px; }
+.etiqueta { margin: 0; color: var(--suave); text-transform: uppercase; letter-spacing: .08em; font-size: .8rem; }
+.codigo { font-family: Consolas, monospace; font-size: clamp(2.4rem, 12vw, 3.6rem); font-weight: 800; color: var(--tinto); margin: 6px 0; }
+.estado { font-size: 1.2rem; font-weight: 700; }
+.estado[data-estado="listo"] { color: var(--hoja); }
+.ayuda { color: var(--suave); font-size: .9rem; }
