@@ -3,18 +3,62 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PideYa · en construcción</title>
+  <title>PideYa · El Tintico</title>
   <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
   <!-- App del estudiante. Relevo 1 (Frontend). -->
   <header class="barra">
-    <h1>PideYa · en construcción</h1>
-    <p>Pide en la cafetería sin hacer fila</p>
+    <h1>☕ PideYa</h1>
+    <p>Cafetería El Tintico · pide sin hacer fila</p>
   </header>
-  <main>
-    <div id="menu" class="aviso">Aquí va a aparecer el menú de la cafetería.</div>
+
+  <!-- Pantalla 1: el menú -->
+  <main id="pantalla-menu">
+    <h2 class="titulo-seccion">Menú de hoy</h2>
+    <div id="menu" class="aviso">Cargando el menú…</div>
   </main>
+
+  <!-- Pantalla 2: el pedido ya enviado (oculta al inicio) -->
+  <main id="pantalla-pedido" class="pantalla-pedido" hidden>
+    <p class="pedido-saludo">¡Listo, <span id="pedido-nombre"></span>! Tu código de recogida es</p>
+    <p id="pedido-codigo" class="pedido-codigo">—</p>
+    <p class="pedido-nota">Grítalo en la cafetería cuando tu pedido esté listo. Pagas en caja al recoger.</p>
+
+    <ol id="pedido-estados" class="estados">
+      <li data-estado="recibido">Recibido</li>
+      <li data-estado="preparando">Preparando</li>
+      <li data-estado="listo">Listo</li>
+      <li data-estado="entregado">Entregado</li>
+    </ol>
+    <p id="pedido-estado-texto" class="pedido-estado-texto"></p>
+
+    <ul id="pedido-items" class="pedido-items"></ul>
+    <p class="pedido-total">Total: <strong id="pedido-total">$0</strong></p>
+
+    <p id="pedido-aviso" class="pedido-aviso"></p>
+    <button id="pedido-otro" class="boton-ancho" type="button">Hacer otro pedido</button>
+  </main>
+
+  <!-- Carrito fijo abajo -->
+  <footer id="carrito" class="carrito">
+    <div class="carrito-fila">
+      <div class="carrito-info">
+        <span id="carrito-cantidad" class="carrito-cantidad">0 productos</span>
+        <span id="carrito-aviso" class="carrito-aviso"></span>
+      </div>
+      <div class="carrito-derecha">
+        <span id="carrito-total" class="carrito-total">$0</span>
+        <button id="carrito-vaciar" class="boton-secundario" type="button" hidden>Vaciar</button>
+      </div>
+    </div>
+    <form id="formulario-pedido" class="carrito-fila carrito-formulario">
+      <input id="nombre" type="text" placeholder="Tu nombre" autocomplete="given-name" maxlength="40" required>
+      <button id="boton-pedir" type="submit" disabled>Pedir</button>
+    </form>
+    <p id="carrito-error" class="carrito-error" hidden></p>
+  </footer>
+
   <script src="app.js"></script>
 </body>
 </html>

@@ -1,21 +1,259 @@
-/* Estilos base de PideYa. Relevo 1 (Frontend). */
+/* Estilos de PideYa. Relevo 1 (Frontend). Pensado para celular. */
 :root {
   --cafe: #4A2C1D;
+  --cafe-oscuro: #33190F;
   --crema: #FFF8EE;
   --tinto: #8C2F1B;
+  --tinto-oscuro: #6E2414;
   --hoja: #2F6B3F;
   --linea: #E7D9C4;
   --texto: #2B1D14;
   --suave: #7A6656;
+  --gris: #F0ECE6;
   --radio: 12px;
+  --alto-carrito: 140px;
   font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--crema); color: var(--texto); line-height: 1.5; }
-header.barra { background: var(--cafe); color: var(--crema); padding: 14px 16px; }
-header.barra h1 { margin: 0; font-size: 1.3rem; }
-header.barra p { margin: 2px 0 0; font-size: .9rem; opacity: .8; }
+body {
+  margin: 0;
+  background: var(--crema);
+  color: var(--texto);
+  line-height: 1.5;
+  /* Deja espacio abajo para que el carrito fijo no tape el último producto */
+  padding-bottom: calc(var(--alto-carrito) + 16px);
+}
+[hidden] { display: none !important; }
+
+/* Barra superior */
+header.barra {
+  background: var(--cafe);
+  color: var(--crema);
+  padding: 14px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
+}
+header.barra h1 { margin: 0; font-size: 1.4rem; }
+header.barra p { margin: 2px 0 0; font-size: .9rem; opacity: .85; }
+
 main { max-width: 720px; margin: 0 auto; padding: 16px; }
-.aviso { background: #fff; border: 1px dashed var(--linea); border-radius: var(--radio); padding: 16px; color: var(--suave); }
-button { font: inherit; cursor: pointer; border: 0; border-radius: 8px; padding: 8px 14px; background: var(--tinto); color: #fff; font-weight: 600; }
+.titulo-seccion { margin: 0 0 12px; font-size: 1.1rem; color: var(--cafe); }
+
+.aviso {
+  background: #fff;
+  border: 1px dashed var(--linea);
+  border-radius: var(--radio);
+  padding: 16px;
+  color: var(--suave);
+}
+.aviso.error { border-color: var(--tinto); color: var(--tinto); border-style: solid; }
+
+/* Menú en tarjetas */
+.menu { display: grid; gap: 12px; }
+@media (min-width: 560px) {
+  .menu { grid-template-columns: 1fr 1fr; }
+}
+
+.tarjeta {
+  background: #fff;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 1px 3px rgba(74, 44, 29, .08);
+}
+.tarjeta-info { min-width: 0; }
+.tarjeta-nombre { margin: 0; font-size: 1.05rem; overflow-wrap: anywhere; }
+.tarjeta-precio { margin: 2px 0 0; font-weight: 700; color: var(--hoja); }
+.tarjeta-acciones { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.contador {
+  background: var(--crema);
+  border: 1px solid var(--linea);
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-weight: 700;
+  color: var(--cafe);
+}
+
+/* Producto agotado: en gris y sin botón */
+.tarjeta.agotado { background: var(--gris); border-color: var(--gris); box-shadow: none; }
+.tarjeta.agotado .tarjeta-nombre,
+.tarjeta.agotado .tarjeta-precio { color: var(--suave); }
+.etiqueta-agotado {
+  background: var(--linea);
+  color: var(--suave);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: .85rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* Botones y campos */
+button {
+  font: inherit;
+  cursor: pointer;
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 16px;
+  background: var(--tinto);
+  color: #fff;
+  font-weight: 600;
+  min-height: 44px; /* fácil de tocar con el dedo */
+}
+button:active { background: var(--tinto-oscuro); }
 button:disabled { background: var(--linea); color: var(--suave); cursor: not-allowed; }
+.boton-secundario {
+  background: transparent;
+  color: var(--crema);
+  border: 1px solid rgba(255, 248, 238, .5);
+  padding: 6px 12px;
+  min-height: 36px;
+  font-size: .9rem;
+}
+.boton-secundario:active { background: rgba(255, 255, 255, .1); }
+.boton-ancho { width: 100%; margin-top: 16px; }
+
+input[type="text"] {
+  font: inherit;
+  border: 1px solid var(--linea);
+  border-radius: 8px;
+  padding: 10px 12px;
+  min-height: 44px;
+  width: 100%;
+  min-width: 0;
+  background: #fff;
+  color: var(--texto);
+}
+input[type="text"]:focus { outline: 2px solid var(--hoja); outline-offset: 1px; }
+
+/* Carrito fijo abajo */
+.carrito {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--cafe-oscuro);
+  color: var(--crema);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 16px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, .25);
+  z-index: 10;
+}
+.carrito-fila {
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.carrito-info { display: flex; flex-direction: column; min-width: 0; }
+.carrito-cantidad { font-weight: 700; }
+.carrito-aviso { font-size: .85rem; opacity: .8; }
+.carrito-derecha { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.carrito-total { font-size: 1.4rem; font-weight: 800; }
+.carrito-formulario button { flex-shrink: 0; min-width: 96px; }
+.carrito-error {
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  background: #FFE3DD;
+  color: var(--tinto);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: .9rem;
+  font-weight: 600;
+}
+
+/* Pantalla del pedido enviado */
+.pantalla-pedido { text-align: center; padding-top: 28px; }
+.pedido-saludo { margin: 0; color: var(--suave); }
+.pedido-codigo {
+  margin: 8px 0;
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: var(--tinto);
+  background: #fff;
+  border: 3px dashed var(--tinto);
+  border-radius: var(--radio);
+  padding: 16px;
+  overflow-wrap: anywhere;
+}
+.pedido-nota { margin: 0 0 24px; font-size: .9rem; color: var(--suave); }
+
+/* Línea de estados: recibido → preparando → listo → entregado */
+.estados {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+.estados li {
+  font-size: .8rem;
+  color: var(--suave);
+  padding-top: 26px;
+  position: relative;
+}
+.estados li::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--linea);
+}
+.estados li::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: var(--linea);
+  z-index: -1;
+}
+.estados li:last-child::after { display: none; }
+.estados li.hecho::before { background: var(--hoja); border-color: var(--hoja); }
+.estados li.hecho::after { background: var(--hoja); }
+.estados li.actual { color: var(--cafe); font-weight: 700; }
+.estados li.actual::before { background: var(--tinto); border-color: var(--tinto); box-shadow: 0 0 0 4px rgba(140, 47, 27, .2); }
+.pedido-estado-texto { margin: 12px 0 24px; font-weight: 600; color: var(--cafe); }
+.pedido-listo .pedido-estado-texto { color: var(--hoja); font-size: 1.1rem; }
+
+.pedido-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  text-align: left;
+}
+.pedido-items li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--linea);
+}
+.pedido-items li:last-child { border-bottom: 0; }
+.pedido-total { text-align: right; margin: 8px 0 0; }
+.pedido-total strong { font-size: 1.2rem; color: var(--hoja); }
+.pedido-aviso { min-height: 1.5em; margin: 12px 0 0; font-size: .85rem; color: var(--tinto); }
