@@ -56,14 +56,16 @@ async function anotarEnBitacora(nombre, items) {
 }
 
 // Guarda un pedido nuevo.
-// items: [{ productoId, cantidad, precio }] tal como llegan en el pedido.
+// items: [{ productoId, cantidad }]. Si traen precio, se ignora: vale el de la despensa.
 // Devuelve { id, codigo, total }.
 async function crearPedido({ nombre, items }) {
   // 1. Revisar en la despensa que haya unidades de todo.
+  //    El precio sale siempre de la despensa: nunca se confía en el que manda el navegador.
   for (const item of items) {
     const producto = obtenerProducto(item.productoId);
     if (!producto) throw new ErrorDespensa(`El producto ${item.productoId} no existe.`);
     if (producto.stock < item.cantidad) throw new ErrorDespensa(`No quedan suficientes unidades de ${producto.nombre}.`);
+    item.precio = producto.precio;
   }
 
   // 2. Anotar el pedido en la bitácora de la cocina.

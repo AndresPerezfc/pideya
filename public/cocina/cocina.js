@@ -20,6 +20,13 @@ const COLUMNAS = [
 ];
 const SIGUIENTE = { recibido: "preparando", preparando: "listo", listo: "entregado" };
 
+// Lo que escribe un usuario se muestra siempre como texto, nunca como HTML.
+function texto(valor) {
+  const caja = document.createElement("span");
+  caja.textContent = valor;
+  return caja.innerHTML;
+}
+
 const tablero = document.getElementById("tablero");
 let ultimo = "";
 
@@ -28,7 +35,7 @@ async function pintar() {
   try {
     pedidos = await apiCocina("/pedidos");
   } catch (error) {
-    tablero.innerHTML = `<p class="estado-aviso">${error.message}</p>`;
+    tablero.innerHTML = `<p class="estado-aviso">${texto(error.message)}</p>`;
     ultimo = "";
     return;
   }
@@ -45,9 +52,9 @@ async function pintar() {
         <h2>${columna.titulo} <span>${lista.length}</span></h2>
         ${lista.map(p => `
           <article class="comanda">
-            <div class="codigo">${p.codigo}</div>
-            <div class="nombre">${p.nombre}</div>
-            <ul>${p.items.map(i => `<li>${i.cantidad} × ${i.nombre}</li>`).join("")}</ul>
+            <div class="codigo">${texto(p.codigo)}</div>
+            <div class="nombre">${texto(p.nombre)}</div>
+            <ul>${p.items.map(i => `<li>${texto(i.cantidad)} × ${texto(i.nombre)}</li>`).join("")}</ul>
             <button data-id="${p.id}" data-estado="${SIGUIENTE[p.estado]}">${columna.boton}</button>
           </article>`).join("")}
       </section>`;
