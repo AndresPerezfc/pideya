@@ -1,13 +1,14 @@
 // Reportes para la administración de la cafetería.
-// Opcional en el relevo 2 (Datos).
+// Relevo 2 (Datos), opcional.
 
 const { Router } = require("express");
+const { ventasDelDia } = require("../db/reportes");
 
 const router = Router();
 
 // GET /api/reportes/ventas
 router.get("/ventas", (req, res) => {
-  res.status(501).json({ error: "El reporte de ventas todavía no existe (opcional en el relevo de Datos)." });
+  res.json(ventasDelDia());
 });
 
 module.exports = router;
